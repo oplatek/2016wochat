@@ -2,8 +2,6 @@
 %  - page number on page 2 onwards
 %  - title/authors on even/odd pages
 %This is good for other readers to enable proper archiving among other papers and pointing to content.
-%Even if the title page states the title, when printed and stored in a folder, when blindly opening the folder, one could hit not the title page, but an arbitrary page. Therefore, it is good to have title printed on the pages, too.
-\documentclass[runningheads,a4paper]{llncs}
 
 %Even though `american`, `english` and `USenglish` are synonyms for babel package (according to https://tex.stackexchange.com/questions/12775/babel-english-american-usenglish), the llncs document class is prepared to avoid the overriding of certain names (such as "Abstract." -> "Abstract" or "Fig." -> "Figure") when using `english`, but not when using the other 2.
 \usepackage[english]{babel}
@@ -140,10 +138,14 @@ pdfstartview=Fit
 %\titlerunning{Short Title}
 
 %Single insitute
+TODO ANONYMIZE
 \author{Ond\v{r}ej Pl\'{a}tek \and Filip Jur\v{c}\'{i}\v{c}ek}
 %If there are too many authors, use \authorrunning
 %\authorrunning{First Author et al.}
-\institute{Charles University in Prague, Faculty of Mathematics and Physics}
+\institute{Charles University in Prague, Faculty of Mathematics and Physics \\
+Insitute of Formal and Applied Linguistics \\
+Malostransk\'{e} n\'{a}m\v{e}st\'i 25, 11800 Praha 1, Czech Republic \\
+\email{\{oplatek,jurcicek\}@ufal.mff.cuni.cz}}
 
 %Multiple insitutes
 %Currently disabled
@@ -165,11 +167,16 @@ Insitute 2\\
 \maketitle
 
 \begin{abstract}
-    This paper presents a datasets which contains task oriented conversation between an operator, a task expert, and a client who is seeking information about the task.
-    The dataset was collected to be used for training end-to-end task oriented conversational agents just from conversations with and KB-calls from the operator.
+    This paper presents a novel datasets for for training end-to-end task oriented conversational agents.
+    The dataset contains task oriented conversation between an operator, a task expert, and a client who is seeking information about the task along with records of data base API calls of the operator, which capture the distilled meaning of the user query.
+    The data base calls represent not only instantiation of user wishes but also, when evaluated against the database determine the answer from the database, which were used by the operator to provide requested information to the client. 
+    We expect that this additional supervision of recording database interaction will provide enough information so the task of the conversation can be understood and behaviour of the interlocutors reconstructed by software agents.
+    The dataset was collected using crowdsourcing in offline setting, where each contributor played role either of an operator or a client and contributed single utterance.
+    The quality of the data were enforced by mutual control among contributors and manually verified on random sub-sample.
+    The dataset is available for download under the Creative Commons 4.0 BY-SA license.
 \end{abstract}
 
-\keywords{...}
+\keywords{task-oriented dialogue, end-to-end, dataset}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}\label{sec:intro}
