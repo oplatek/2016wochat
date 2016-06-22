@@ -215,8 +215,36 @@ Simple Figure
 \section{End-to-end training of dialogue systems}
 \label{sec:training}
 
-\section{Representing task-oriented supervision}
+\section{Supervised feedback for task-oriented dialogue}
 \label{sec:repre}
+Traditionally, the dialogue systems are designed as pipelines of components, i.e.\ language understanding (LU) unit, dialogue tracker (DT), dialogue manager (DM) and natural language generator (NLG) for chat-based conversational agents.
+If one want to use speech-to-speech conversational agent the 1-best ASR hypothesis can be used as input for LU unit and the NLG can be easily modified so its output is convenient for text-to-speech (TTS) unit which need to appended to the pipeline.
+
+We focus on preparing training data so the LU, DT, DM and NLG components of dialogue system can be trained using such data.
+The TTS and the ASR modules are typically trained with much more data and such data sets are out of scope of this paper.
+
+It was shown that few hundreds of annotated domain specific conversation is needed for training relatively well performing LU~\cite{Alex} as well as Dialogue State Tracking~\cite{todo-Young?} components.
+The work of~\cite{dusek} and~\cite{Marraise} showed that also several hundreds of conversations with appropriate annotation is needed for training usable NLG unit on simple domains.
+Even the crucial task of action selection with reward provided only at the end of dialogue can be trained using POMDP dialogue manager and few thousands conversations~\cite{Gasic}.
+
+A~novel work of~\cite{Wen} showed that only XY conversation annotated with just at dialogue state level is needed for training the whole end-to-end system performing the task of summarizing the dialogue history and reply planning and generation.
+Consequently, we believe that end-to-end systems even with latent variables can be trained using few hundreds conversation if additional supervision in the form of simple annotation is used for narrow goal-oriented domains such as~\cite{Wen} domain or Cambridge restaurant domain~\cite{DSTC2}.
+
+We note that on one hand further annotation of dialogue conversation may help to train the models faster, but simply collecting more data is typically more beneficial even with less annotation for models which does not require such annotation.
+As a consequence, we see work of~\cite{Wen},~\cite{Borders} and~\cite{Williams} as great step forward since there work use annotation on dialogue state level or even no annotation for training dialogue agents.
+
+On the other hand, we believe that annotating a dialogue state according to expert-handcrafted ontology is both artificial and still very labour intensive data collection task, so our work aim at collecting conversation with lighter but more easier to get annotations.
+We suppose that a task-oriented  domain is defined by a task database e.g. in the Cambridge restaurant domain by database containing information about restaurant names, price range, area, address and phone.
+We further suppose that there two roles in the conversation a {\it client} and a {\it operator}.
+Typically, one wants to train a system which replaces the {\it operator} who is the domain expert.
+{\it Clients} seek information stored in the database and use the system instead of human operator to obtain desired information.
+In order to collect cheap high quality training data conversation one can record conversation between human operator and human clients.
+Typically, the operator is provided with interface to the database so it can quickly find relevant information and play the role of domain expert.
+We suggest to collect the operator's database calls with its arguments instead of dialogue state annotation after each turn.
+
+The calls' to the database when call completely represents the client intention which is the purpose of the dialogue state.
+On the other, the database calls are not present in every turn and thus by logging only the calls one loses a possibility to track partially filled client intention.
+We argue that in high quality human-human conversation there is a minimum turns which are related to the domain and do not contain calls to the database as demonstrated in~Section~\ref{sec:props}.
 
 \section{Dataset Collection Process}
 \label{sec:collection}
