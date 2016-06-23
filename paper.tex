@@ -202,18 +202,8 @@ Despite the fact, we collected human-to-human dialogues on known task of Cambrid
 The paper is structured as follows:
 XY
 
-
-
-\begin{figure}
-Simple Figure
-\caption{Simple Figure}
-\label{fig:simple}
-\end{figure}
-
-
-
-\section{End-to-end training of dialogue systems}
-\label{sec:training}
+% \section{End-to-end training of dialogue systems}
+% \label{sec:training}
 
 \section{Supervised feedback for task-oriented dialogue}
 \label{sec:repre}
@@ -234,7 +224,7 @@ We note that on one hand further annotation of dialogue conversation may help to
 As a consequence, we see work of~\cite{Wen},~\cite{Borders} and~\cite{Williams} as great step forward since there work use annotation on dialogue state level or even no annotation for training dialogue agents.
 
 On the other hand, we believe that annotating a dialogue state according to expert-handcrafted ontology is both artificial and still very labour intensive data collection task, so our work aim at collecting conversation with lighter but more easier to get annotations.
-We suppose that a task-oriented  domain is defined by a task database e.g. in the Cambridge restaurant domain by database containing information about restaurant names, price range, area, address and phone.
+We suppose that a task-oriented  domain is defined by a task database e.g. in the Cambridge restaurant domain by database containing information about restaurants
 We further suppose that there two roles in the conversation a {\it client} and a {\it operator}.
 Typically, one wants to train a system which replaces the {\it operator} who is the domain expert.
 {\it Clients} seek information stored in the database and use the system instead of human operator to obtain desired information.
@@ -249,17 +239,107 @@ We argue that in high quality human-human conversation there is a minimum turns 
 \section{Dataset Collection Process}
 \label{sec:collection}
 
+Our data collection processed aimed at collecting natural conversation in the well defined domain.
+We selected well studied Cambridge restaurant domain since the previous dataset~\cite{dstc1, dstc2, dstc3} in that domain demonstrated that a meaningful and not too long conversation can be held in the domain.
+Also it was proven that the domain is on one hand difficult enough that even the state-of-the art systems does not reach human-level performance in the role of the operator and on the other hand numerous systems~\cite{young, gasic, Wen} demonstrated that are able to provide information to the clients most of the time.
+
+We defined our domain by choosing a database from Dialogue State Tracking Challenge 2 (DSTC2)~\cite{dstc2} and explaining the interlocutors that there two roles a client and a operator.
+For each conversation we determined goals for the client and provided the database for the operator.
+We used the CrowdFlower (CF) crowdsourcing platform to collect the conversations.
+
+We first describe the database which defines our domain in~Section~\ref{sec:db}.
+Then we describe how the hired workers used our interface for playing either client or operator roles in~Sections~\ref{sec:client}and~\ref{sec:operator}.
+Finally, in~Section~\ref{sec:async} we describe how we collected conversations one response at a time without connecting the interlocutors in real-time. 
+
+\subsubsection{Domain database}
+\label{sec:db}
+
+We used exactly the same database as provided for the DSTC2 challenge.
+The database contains information about 107 restaurants and their properties stored in the columns:
+
+% \begin{itemize}
+\begin{inparaenum}
+    \item name (107),
+    \item price range (3?),
+    \item area (4),
+    \item food (20?),
+    \item address (90?),
+    \item phone (90?),
+    \item postcode (90?).
+\end{inparaenum}
+% \end{itemize}
+
+We include the size of the vocabulary in brackets for each column.
+The address or the postcode are unique for each restaurant but are sometimes missing, but the name of the restaurant is always known. 
+There typically multiple restaurant with the same price range, area, or food type property.
+These properties are sometimes unknown as well.
+
+We use the database to generate the clients goals as demonstrated in~Figure~\ref{fig:client}, but only the operator is able to search the database (see~Figure~\ref{fig:operator}).
+
+\subsubsection{Client interface}
+\label{sec:client}
+
+The client is given a goal to request provided information from the operator.
+He may choose not to seek the goal immediately but submit more appropriate response such as greeting first.
+The goals for the client are presented to the CF workers gradually and may contradict each other.
+For example, the client may at first want a Chinese food, but later it changes her mind and wants to find restaurant serving British food.
+
+Before submitting a reply the client is instructed to read the dialogue history and marked the goals which were presented to the operator.
+The worker in the role of client is paid for each submitted response.
+
 \begin{figure}
 \begin{center}
 \includegraphics[height=25em]{gui-annotators-client}
-\caption{Annotation interface}
+\caption{Client annotation interface}
 \end{center}
 \vspace{-0.80em}
-\label{fig:encind}
+\label{fig:client}
 \end{figure}
+
+\subsubsection{Operator database}
+\label{sec:operator}
+The operator is asked to politely reply the clients needs according the information stored in the database.
+In order to provide the informations to clients the operator uses the DB interface depicted in~Figure~\ref{fig:operator}.
+Her or she filters the restaurants using a full text search on the database.
+The content of the database is intentional hidden if no filter is specified so the filter has to be used.
+The CF workers are also instructed also explicitly mark the rows of the restaurants about which provide the information in their answer.
+
+\begin{figure}
+\begin{center}
+\includegraphics[height=25em]{gui-annotators-system}
+\caption{Operator annotation interface}
+\end{center}
+\vspace{-0.80em}
+\label{fig:operator}
+\end{figure}
+
+\subsubsection{Asynchronous collection without real-time responses}
+\label{sec:async}
+We design the crowdsourcing jobs so the CF contributors are able to work independently to each other.
+One conversation is collected through out several rounds of jobs.
+The roles of client and operator take turns as sets of partial conversations are submitted for collecting a single new response.
+As a consequence, multiple contributors participate in submitting responses for single conversation for both roles.
+
+Each utterance in conversation is submitted by different contributor, so contributors need to read carefully the dialogue history to understand the conversation before submitting their response.
+The workers are able to mark dialogues which does not make sense and thus they self-assess quality of the conversations.
+Note also that the conversation are typically rather short taking only from {\bf TODO} four to six turns including first turn with greetings.
+The contributors mark the conversations as finished if they have no more goals to fulfill and all the goodbyes were said.
+
+We bootstrap the conversation with either with an operators introduction "{\it Hello , welcome to the Cambridge restaurant system? You can ask for restaurants by area , price range or food type . How may I help you?}" and the first contributors play role of the client or we bootstrap the conversation full turn with aforementioned operators utterance and clients greeting e.g. "Hi" so the contributors play role of the operator.
+
+To avoid poor language level of English we restricted the CF worker to English-speaking countries.
+We further perform heuristically check for too trivial answers and we added ability to the CF workers to rate each others submission.
+It help us filter low quality submission, but more importantly it motivated workers not to cheat. 
+
+% TODO describe how we started with 5 bootstrapped conversation with client role 5 without it and then mixed the partial with new one and resubmit them until the first conversations were marked as finished.
+
 
 \section{Dataset Properties}
 \label{sec:props}
+
+We collected XY conversation with average length ZY.
+During an average conversation 2.4-TODO tasks are requested and answered.
+Typically in 65-TODO \% case the conversation is ended by the client
 
 \begin{table}
 \begin{center}
@@ -281,14 +361,30 @@ Test &   ? & ? \\
 \label{tab:props}
 \end{table}
 
+During the data collection process we discarded roughly 40-TODO \% of conversation in total.
+
 
 \section{Related Work}
 \label{sec:related}
 
+Our work is closely related  to work of~\cite{dstc1, dstc2, dstc3} in the sense that the conversation are held in the same domain.
+On the other hand, the collection process differs substantially because we do not use any artificial system and rather we focus on collecting high quality human conversations. In addition, in our work we do not collect complicated annotation on LU and DST level as it was previously done on DST challenges.
 
+A very relevant work of~\cite{Wen} collected human-human dialogues in similar domain to the Cambridge domain according their description.
+Their dataset is not yet published so we compare only with their statistics.
+The dataset is of similar size and used very similar collection scheme where the Amazon Mechanical Turk workers submitted one reply at a time without being connected to each other in real-time.
+
+Another line of research~\cite{mirek-interactive} used CF to collect human-human conversation for interactive-learning dataset.
+However, the collected dialogues were later annotated by expert annotators which goes directly against our intentions to avoid any expensive annotations.
+
+There is tremendous amount of work describing Wizard of Oz experiments~\cite{walker,schlangen,someone} which either focused on studying linguistic properties of dialogues, evaluated proof of concept or even collected bootstrap training data, but definitely, according our knowledge, do not use cheap crowdsourcing workers to collect a~full training dataset.
 
 \section{Conclusion and Future work}
 \label{sec:conc}
+We present a new human-human dialogue dataset with annotation of user intension in form of their database calls.
+We also introduced a novel data collection setting which resembles work of operators in call centers and introduce minimum overhead to crowdsourcing workers.
+
+The collected dialogues are published under Creative Commons 4.0 BY-SA license on available to download at {\it anonymised}.  % lindat\footnote{todo where}.
 
 \subsubsection*{Acknowledgments}
 We would like to thank Ond\v{r}ej Du\v{s}ek for useful comments.
