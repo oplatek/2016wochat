@@ -151,17 +151,12 @@ pdfstartview=Fit
 %Currently disabled
 %
 % \iffalse % FIXME enable for blind review and ucomment Single institute with filled values 
-\iftrue % FIXME enable for blind review and ucomment Single institute with filled values 
-%Multiple institutes are typeset as follows:
-\author{Firstname Lastname\inst{1} \and Firstname Lastname\inst{2} }
-%If there are too many authors, use \authorrunning
-%\authorrunning{First Author et al.}
 
+\iftrue % FIXME enable for blind review and ucomment Single institute with filled values 
+\author{Firstname Lastname \and Firstname Lastname }
 \institute{
-Insitute 1\\
-\email{...}\and
-Insitute 2\\
-\email{...}
+Insitute\\
+\email{anonym@anonymous}
 }
 \fi
 			
@@ -199,8 +194,10 @@ We believe that the present dataset can be used for first experiments for end-to
 The resulting systems should be able to roughly compare to systems trained on datasets with~\cite{williams2013dstc1,henderson2014dstc2,henderson2014dstc3} dialogue state annotation because the same settings, i.e.\ database and task, for data collection.
 Despite the fact, we collected human-to-human dialogues on known task of Cambridge restaurant domains the data-collecting method is completely domain and language independent.
 
-The paper is structured as follows:
-XY
+The paper is structured as follows: The~Section~\ref{sec:repre} motivates the annotations and format of our dataset.
+In the Section~\ref{sec:collection} we introduce our collection process using crowd-sourcing.
+Section~\ref{sec:props} presents the dataset properties and we list the related work in the~Section~\ref{sec:related}.
+We conclude the paper and suggest future work in~Section~\ref{sec:conc}.
 
 % \section{End-to-end training of dialogue systems}
 % \label{sec:training}
@@ -251,7 +248,7 @@ We first describe the database which defines our domain in~Section~\ref{sec:db}.
 Then we describe how the hired workers used our interface for playing either client or operator roles in~Sections~\ref{sec:client} and~\ref{sec:operator}.
 Finally, in~Section~\ref{sec:async} we describe how we collected conversations one response at a time without connecting the interlocutors in real-time. 
 
-\subsubsection{Domain database}
+\subsection{Domain database}
 \label{sec:db}
 
 We used exactly the same database as provided for the DSTC2 challenge.
@@ -274,7 +271,7 @@ There are typically multiple restaurant with the same price range, area, or food
 
 Note that we use the database to generate the clients goals as demonstrated in~Figure~\ref{fig:client} and only the operator is able to search the database add demonstrated in~Figure~\ref{fig:operator}.
 
-\subsubsection{Client interface}
+\subsection{Client interface}
 \label{sec:client}
 
 The client is given a goal to request provided information from the operator.
@@ -293,7 +290,7 @@ Before submitting a reply the client is instructed to read the dialogue history 
 \label{fig:client}
 \end{figure}
 
-\subsubsection{Operator database}
+\subsection{Operator interface}
 \label{sec:operator}
 The operator is asked to politely reply the clients needs according the information stored in the database.
 In order to provide the information to clients the operator uses the DB interface depicted in~Figure~\ref{fig:operator}.
@@ -310,27 +307,31 @@ The CF workers are also instructed also explicitly mark the rows of the restaura
 \label{fig:operator}
 \end{figure}
 
-\subsubsection{Asynchronous collection without real-time responses}
+\subsection{Asynchronous collection without real-time responses}
 \label{sec:async}
 We design the crowd-sourcing jobs so the CF contributors are able to work independently to each other.
-One conversation is collected through out several rounds of jobs.
 The roles of client and operator take turns as sets of partial conversations are submitted for collecting a single new response.
 As a consequence, multiple contributors participate in submitting responses for single conversation for both roles.
 
 Each utterance in conversation is submitted by different contributor, so contributors need to read carefully the dialogue history to understand the conversation before submitting their response.
 The workers are able to mark dialogues which does not make sense and thus they self-assess quality of the conversations.
-Note also that the conversation are typically rather short.
 The contributors mark the conversations as finished if they have no more goals to fulfill and all the goodbyes were said.
 
 We bootstrap the conversation either with an operators introduction "{\it Hello , welcome to the Cambridge restaurant system? You can ask for restaurants by area , price range or food type . How may I help you?}" or we bootstrap the conversation with a~full turn where we add clients greeting e.g. {\it "Hi"} to aforementioned operators utterance.
 If we initialize the dialogue with a~full turn the first contributor plays role of the system if we bootstrap the conversation only with~the operators greeting, the contributors plays the client's role.
 
+In single job submission we let the workers append to each dialogue a~single response.
+Typically, we submit from twenty to thirty partial dialogues with different history lengths.
+Some conversations might be just initialized with the auto-generated greetings but most of them store multiple turns collected by CF contributors in the~previous submission.
+Note also that the conversations are typically rather short so full dialogues are collected after few rounds of submissions.
+The workers are paid for every submitted response the same amount independently if they play client or operator role and they typically contribute to multiple conversation during one job submission.
+The contributors are assigned roles randomly.
+
 To avoid poor language level of English we restricted the CF worker to English-speaking countries.
 We further perform heuristically check for too trivial answers and we added ability to the CF workers to rate each others submission.
 It help us filter low quality conversations, but more importantly it motivated workers not to cheat.
 
-The workers are paid for every submitted response the same amount independently if they play client or operator role.
-The roles are assigned randomly.
+
 
 % TODO describe how we started with 5 bootstrapped conversation with client role 5 without it and then mixed the partial with new one and resubmit them until the first conversations were marked as finished.
 
@@ -393,8 +394,8 @@ We intend to use the dataset to train and evaluate an~end-to-end conversational 
 \subsubsection*{Acknowledgments}
 We would like to thank Ond\v{r}ej Du\v{s}ek for useful comments.
 This research was partly funded by the Ministry of Education, Youth and Sports of the Czech Republic under the grant agreement LK11221, core research funding, grant GAUK 1915/2015, and also partially supported by SVV project number 260 333. 
-We gratefully acknowledge the support of NVIDIA Corporation with the donation of the Tesla K40c GPU used for this research.
-Cloud computational resources were provided by the MetaCentrum under the program LM2010005 and the CERIT-SC under the program Center CERIT Scientific Cloud, part of the Operational Program Research and Development for Innovations, Reg.\ no. CZ.1.05/3.2.00/08.0144.
+% We gratefully acknowledge the support of NVIDIA Corporation with the donation of the Tesla K40c GPU used for this research.
+% Cloud computational resources were provided by the MetaCentrum under the program LM2010005 and the CERIT-SC under the program Center CERIT Scientific Cloud, part of the Operational Program Research and Development for Innovations, Reg.\ no. CZ.1.05/3.2.00/08.0144.
 
 % ``something in quotes'' using plain tex or use \enquote{the enquote command}.
 % cref Demonstration: Cref at beginning of sentence, cref in all other cases.
