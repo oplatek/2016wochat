@@ -1,6 +1,10 @@
 Rewochat 2016
 -------------
 
+Should I submit it as shared task report or full paper? Yes
+
+But I should try to submit a wit.ai chatbot
+
 According to [instructions](http://workshop.colips.org/wochat/cfps.html)
 I downloaded LNCS template from https://www.springer.com/computer/lncs?SGWID=0-164-6-793341-0
 
