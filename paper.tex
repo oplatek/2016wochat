@@ -267,7 +267,7 @@ Then we describe how the hired workers use our interface to play either the clie
 Finally, in~Section~\ref{sec:async}, we describe how we collect conversations one response at a time without connecting the interlocutors in real-time. 
 
 \vspace{-1.00em}
-\subsection{Domain database}
+\subsection{Domain Database}
 \label{sec:db}
 
 We use exactly the same database as provided for the DSTC2 challenge~\cite{henderson2014dstc2}.
@@ -292,19 +292,19 @@ We use this database to generate\OD{prepare} client goals for CF users (see Figu
 The database is also available through a simple interface to CF users playing the role of the operator (see Figure~\ref{fig:operator}).\OD{nechceš tu odkazovat na ty podsekce spíš než na ty obrázky?}
 
 \vspace{-1.00em}
-\subsection{Client interface}
+\subsection{Client Interface}
 \label{sec:client}
 
-The client is asked to request a specific information – a goal from the operator.
-He may choose not to seek the goal immediately but submit more appropriate response such as greeting instead.
-The goals are displayed to the CF worker in the client role gradually turn-by-turn and the goals may contradict each other.
-For example, the client may at first want a Chinese food, but later it changes her mind and wants to find restaurant serving British food.
+The CF worker playng the role of the client is asked to request specific information from the operator – a goal.
+They may choose not to seek the goal immediately but submit more appropriate response such as greeting instead.
+The goals are displayed to the CF worker in the client role gradually turn-by-turn and may contradict each other.
+For example, the client may at first want a to find a restaurant serving Chinese food, but later change their mind and seek British food.
 
-Before submitting a reply the client is instructed to read the dialogue history and marked the goals which were presented to the operator as demonstrated in Figure~\ref{fig:client}.
-By marking which goals have been already presented to the operator we force the CF workers to pay attention to the dialogue history before submitting their reply.
-In Section~\ref{sec:async} we describe how we combine the workers replies to form a~conversations.
+Before submitting a reply, the client is instructed to read the dialogue history and mark the goals which were already presented to the operator, as demonstrated in Figure~\ref{fig:client}.\OD{teď nevím, jestli “goal” je celkový cíl, nebo jestli jich má ten worker víc -- to by bylo potřeba jednotně.}
+By marking which goals have already been presented to the operator, we force\OD{oblige?} the CF workers to pay attention to the dialogue history before submitting their reply.\OD{do footnotu explicitně vysvětlit, proč to tak je -- proč nemůžou klikat náhodně (že další user vlastně kontroluje toho předchozího tím, že musí zaškrtnout nadmnožinu dříve zaškrtnutých cílů)?}
+In Section~\ref{sec:async}, we describe how we combine the workers' replies to form a conversation.\OD{tuhle větu na začátek sekce?}
 
-\begin{figure}
+\begin{figure}[tb] % ať se nemrhá místem
 \vspace{-1.00em}
 \begin{center}
 \includegraphics[height=30em]{gui-annotators-client}
@@ -316,22 +316,22 @@ In Section~\ref{sec:async} we describe how we combine the workers replies to for
 \vspace{-1.00em}
 
 \vspace{-1.00em}
-\subsection{Operator interface}
+\subsection{Operator Interface}
 \label{sec:operator}
-The operator is asked to politely reply the clients needs according the information stored in the database.
-In order to provide the information to clients the operator uses the DB interface depicted in~Figure~\ref{fig:operator}.
-Her or she filters the restaurants using a full text search on the database.
-The content of the database is intentional hidden if no filter is specified so the filter has to be used.
-The CF workers are also instructed explicitly mark the rows of the restaurants about which provide the information in their answer.
-Similarly to the client role, an operator does not have to reply to all requested information at once.
-It is up to the~worker which information is provided first.
+The operator CF worker is asked to politely address the clients needs according to the information stored in the database.
+In order to provide the information to clients, the operator uses the simple database interface depicted in~Figure~\ref{fig:operator}:
+They filter the restaurants using a full text search over the database.
+The content of the database is intentionally hidden if no filter is specified so that a filter has to be used to provide results.
+The CF workers are also instructed to explicitly mark the database rows to which they refer in their answer.
+Similarly to the client role, the operator does not have to provide all requested information in a single turn.
+It is left up to the~worker which information is provided first.
 
-The full text search, our interface to the database, is implemented in Javascript as a simple substring matching over values in the database.
+Our full text search interface to the database is implemented in Javascript as a simple substring matching over values in the database.
 Multiple constrains can be expressed by two substrings separated by a comma.
-We used such a simple interface because it is easy to generate and also reconstruct the candidate results given the query and the database.
-The CF workers were instructed to mark a candidate row from the results about which they inform in their reply.
+We used such a simple interface because it is easy to generate and also reconstruct the candidate results given the query and the database.\OD{co znamená “easy to generate”? hlavně taky “easy to use for untrained CF workers”, to mi přijde důležitější, ne? možná bych ty detaily o tom interfacu hodil rovnou za “using a full text search over the database”}
+\ODdel{The CF workers were instructed to mark a candidate row from the results about which they inform in their reply.}\OD{tady se opakuješ}
 
-\begin{figure}
+\begin{figure}[tb]
 \vspace{-1.00em}
 \begin{center}
 \includegraphics[height=35em]{gui-annotators-system}
@@ -345,25 +345,25 @@ The CF workers were instructed to mark a candidate row from the results about wh
 \vspace{-1.00em}
 \subsection{Asynchronous collection without real-time responses}
 \label{sec:async}
-We design the crowdsourcing jobs so the CF contributors are able to work independently to each other.
-The roles of client and operator take turns as sets of partial conversations are submitted for collecting a single new response.
+We design the crowdsourcing jobs so that the CF contributors are able to work independently of each other.
+The roles of client and operator take turns as partial conversations are submitted to CF for collecting a single new response.\OD{přijde mi, že “sets of” to spíš zamlží}
 As a consequence, a~single conversation is collected from multiple contributors over several job submissions.
 
-Each utterance in conversation may be submitted by different contributor, so contributors need to read carefully the dialogue history to understand the conversation before submitting their response.
-The workers are able to mark dialogues which does not make sense and thus they self-assess quality of the conversations.
-The contributors mark the conversations as finished if they have no more goals to fulfill and all the goodbyes were said.
+Each utterance in the conversation may be submitted by a different contributor. Therefore, the contributors need to read carefully the dialogue history to understand the conversation before submitting their response.
+The workers are able to mark dialogues which do not make sense and thus they self-assess the quality of the conversations.
+The contributors mark the conversations as finished if they have no more goals to fulfill and all the goodbyes have been said.
 
-We bootstrap the conversation either with an operators introduction "{\it Hello , welcome to the Cambridge restaurant system...}" or we bootstrap the conversation with a~full turn where we add clients greeting e.g. {\it "Hi"} to aforementioned operators utterance.
-If we initialize the dialogue with a~full turn the first contributor plays role of the system if we bootstrap the conversation only with~the operators greeting, the contributor plays the client's role.
+We bootstrap the conversation either with an operator's introduction {\it ``Hello , welcome to the Cambridge restaurant system...''}, or we bootstrap the conversation with a~full turn where we add a client's greeting, e.g., {\it ``Hi''} to the operator's introduction.
+If we initialize the dialogue with a~full turn, the first contributor plays role of the system. If we bootstrap the conversation only with~the operator's greeting, the first contributor plays the client's role.
 
-In a~single job submission, we let the workers append to each dialogue a~single response.
-Note also that the conversations are typically rather short so full dialogues are collected after few rounds of submissions.
-The workers are paid for every submitted response the same amount independently if they play client or operator role and they typically contribute to multiple conversation during one job submission.
-The contributors are assigned roles randomly.
+In a~single CF task submission, we let the workers append a~single response to multiple different dialogues, taking on a random role in each of them.
+That the conversations are typically rather short \OD{možná rekni počet turnů, ať to nevypadá jako dva} and therefore, full dialogues are collected after few rounds of submissions.
+The workers are paid  the same amount of money for every submitted response regardless of whether they play the client or the operator role. \ODdel{and they typically contribute to multiple conversation during one job submission.}\OD{přidal jsem do první věty)}
+\ODdel{The contributors are assigned roles randomly.}\OD{ditto}
 
-To avoid poor language level of English we restricted the CF worker to English-speaking countries.
-We further perform heuristically check for too trivial answers and we added ability to the CF workers to rate each others submission.
-It help us filter low quality conversations, but more importantly it motivated workers not to cheat.
+To avoid poor language level of English, we restricted the CF job to English-speaking countries.
+We further perform heuristic checks for too trivial replies, and we enable the CF workers to rate each other's responses.
+This help us filter low-quality conversations, but more importantly, it motivates the CF workers not to cheat.
 
 \section{Dataset Properties} \label{sec:props}
 \vspace{-0.50em}
