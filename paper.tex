@@ -223,11 +223,11 @@ We suppose that the agent has a task database\footnote{In the Cambridge restaura
 The other interlocutor in the conversation is a~human {\it client} that seeks information stored in the database.
 
 The task of building a conversational agents is traditionally simplified by creating pipeline of subtasks: each solved by specialised components: automatic speech recognition (ASR), language understanding (LU) unit, dialogue tracker (DT), dialogue manager (DM), natural language generator (NLG) and text-to-speech (TTS) module~\cite{duvsek2014alex}.
-The ASR~\cite{platek2014free} and TTS~\cite{taylor2009text} modules can be easily trained from data without understanding the meaning of the data and there are typically domain independent.
+The ASR~\cite{platek2014free} and TTS~\cite{taylor2009text} modules can be easily trained without understanding the meaning of the input and there are typically trained domain independently.
 The crucial task of conversation agents is to understand the dialogue history and respond with a reply which has the greatest expected benefit for the agent.
-The task of understanding and reply generation is traditionally solved by the text-to-text pipeline of LU, DT, DM, and NLG trained using just in-domain data~\cite{gasic2011line,jurvcivcek2014factored,duvsek2016sequence} annotated at level of each component.
-Our datasets provides just the textual input-output transcriptions of in~domain conversations and simple annotations in form of database calls.
-We expect that supervised models will be able model the meaning of the history and select its reply only from the transcriptions and the annotation.
+The task of understanding and reply generation is traditionally solved by the text-to-text pipeline of LU, DT, DM, and NLG components trained using just in-domain data which are annotated for each component~\cite{gasic2011line,jurvcivcek2014factored,duvsek2016sequence}.
+Our datasets contains just the textual transcriptions of input from client and output of the operator from indomain conversations and in addition it includes simple annotations in form of database calls.
+We expect that supervised models will be able to model the meaning of the history and select a~convenient reply only from the transcriptions and the annotations.
 
 % Me to nesedi jako related work - related work je o sbirani dat
 % Tohle me prijde zduvodneni, ze takovy (maly, supervised) dataset dava smysl
