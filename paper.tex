@@ -164,7 +164,7 @@ Insitute\\
 			
 \maketitle
 \OP{Fill missing values about the dataset collected so far} \\
-\OP{describe the dataset,apologize for not having the dataset collected - promise for camera ready version.} \\
+\OP{new client interface image so the text is visible, fit to 8 pages}
 \OP{grammar check} \\
 
 \begin{abstract}
@@ -180,7 +180,8 @@ Insitute\\
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}\label{sec:intro}
-We present a new dataset of human-human task-oriented conversations in the restaurant info domain for supervised training of autonomous systems. Currently, the dataset contains only \OP{XY} dialogues because we are still collecting more data, but we estimate that until camera ready deadline we will have more than seven hundreds dialogues. 
+We present a new dataset of human-human task-oriented conversations in the restaurant info domain for supervised training of autonomous systems. 
+Currently, the dataset contains only \OP{62} dialogues because we are still collecting more data, but we estimate that until camera ready deadline we will have more than seven hundreds dialogues. 
 We aim at representing the conversation in such way that it is easy to train a system to replace an operator who provides information about the restaurants to clients.
 In contrast to previously released datasets, our dataset contains easy to collect high-quality transcriptions of the client and operator actions during conversations.
 We introduce a~very little overhead by collecting database calls in addition to the transcription of the conversation. 
@@ -265,8 +266,7 @@ Finally, in~Section~\ref{sec:async} we describe how we collected conversations o
 We used exactly the same database as provided for the DSTC2 challenge~\cite{henderson2014dstc2}.
 The database contains information about 107 restaurants and their properties stored in the columns.
 We include in brackets the number of different values for each column:
-\begin{itemize}
-%\begin{inparaenum}
+\begin{itemize}  % tabulku misto tohohle?
     \item name (107),
     \item price range (4),
     \item area (7),
@@ -274,7 +274,6 @@ We include in brackets the number of different values for each column:
     \item address (101),
     \item phone (97),
     \item postcode (62).
-% \end{inparaenum}\OD{tohle je ošklivý... buď dej do tabulky, nebo vyhoď, pokud by to žralo moc místa (uveď jen souhrnně největší-nejmenší)}
 \end{itemize}
 
 The address or the phone are unique for each restaurant but are sometimes missing, but the name of the restaurant is always known. 
@@ -341,9 +340,6 @@ We bootstrap the conversation either with an operators introduction "{\it Hello 
 If we initialize the dialogue with a~full turn the first contributor plays role of the system if we bootstrap the conversation only with~the operators greeting, the contributors plays the client's role.
 
 In single job submission we let the workers append to each dialogue a~single response.
-% Typically, we submit for annotation from twenty to thirty partial dialogues with different history lengths.
-%Some conversations might be just initialized with the auto-generated greetings but most of them store multiple turns collected by CF contributors in the~previous submission.
-% \OD{od “typically...” mi to přijde jako technikálie, která spíš mate}
 Note also that the conversations are typically rather short so full dialogues are collected after few rounds of submissions.
 The workers are paid for every submitted response the same amount independently if they play client or operator role and they typically contribute to multiple conversation during one job submission.
 The contributors are assigned roles randomly.
@@ -352,38 +348,37 @@ To avoid poor language level of English we restricted the CF worker to English-s
 We further perform heuristically check for too trivial answers and we added ability to the CF workers to rate each others submission.
 It help us filter low quality conversations, but more importantly it motivated workers not to cheat.
 
-% TODO describe how we started with 5 bootstrapped conversation with client role 5 without it and then mixed the partial with new one and resubmit them until the first conversations were marked as finished.
-
-
 \section{Dataset Properties}
 \label{sec:props}
 
-We collected XY conversation with average length ZY.
-During an average conversation \OP{2.4} tasks are requested and answered.
-Typically in \OP{65} \% case the conversation is ended by the client
-As we mention the conversation are short, taking only from \OP{four to six turns} including first turn with greetings.
-\begin{table}
-\begin{center}
-\begin{tabular}{lrr}
-\hline
-Set   & \# Dialogues & \# Turns \\
-\hline
-% Joint  &  todo &  todo \\
-% /a/SSD/oplatek/e2end/log/2016-06-08-17-31-38.400-dstc-INDEP_labels-d0.7-w100-e100/
-% /a/SSD/oplatek/e2end/log/TEST-ORIGINAL-2016-06-08-17-31-38.400dstc-INDEP_labels-d0.7-w100-e100-reward-0.9080-step-0036224
-Train  &   ? & ? \\
-Dev &   ? & ? \\
-Test &   ? & ? \\
-\hline
-\end{tabular}
-\caption{Accuracy on development and test set}
-\vspace{-2em}
-\end{center}
-\label{tab:props}
-\end{table}
+We just started to collect our dataset and so far we collected only 60 conversations.
+The average length of a conversation is \OP{3.8} turns, meaning that the contributors and in both roles reply three times before the conversation is finished\footnote{First system reply is automatically generated and for some conversation even the first client reply is also initialized as described in Section~\ref{sec:async}}.
+During an average conversation \OP{2.4} tasks are requested and \OP{1.9} answered.
+Typically in \OP{65} \% case the conversation is ended by the client.
+% As we mention the conversation are short, taking only from \OP{four to six turns} including first turn with greetings.
+% \begin{table}
+% \begin{center}
+% \begin{tabular}{lrr}
+% \hline
+% Set   & \# Dialogues & \# Turns \\
+% \hline
+% % Joint  &  todo &  todo \\
+% % /a/SSD/oplatek/e2end/log/2016-06-08-17-31-38.400-dstc-INDEP_labels-d0.7-w100-e100/
+% % /a/SSD/oplatek/e2end/log/TEST-ORIGINAL-2016-06-08-17-31-38.400dstc-INDEP_labels-d0.7-w100-e100-reward-0.9080-step-0036224
+% Train  &   ? & ? \\
+% Dev &   ? & ? \\
+% Test &   ? & ? \\
+% \hline
+% \end{tabular}
+% \caption{Accuracy on development and test set}
+% \vspace{-2em}
+% \end{center}
+% \label{tab:props}
+% \end{table}
 
-During the data collection process we discarded roughly \OP{40} \% of conversation.
-We split the \OP{XYZ} collected conversation randomly into training, development and test set (see Table~\ref{tab:props}).
+During the data collection process we discarded over \OP{40} \% of conversation because one of the utterances were mark as low quality.
+Note that we discard only the low quality utterance and sufix of that conversation, the prefix is submitted for finishing the conversation in next rounds of jobs.
+Once we will collect enough conversation we intend to split them into training, development and test set. % (see Table~\ref{tab:props}).
 
 
 \section{Related Work}
@@ -409,7 +404,7 @@ We also introduced a novel data collection setting which resembles work of opera
 % TO mi prijde ze v call -centrech delaji stejne\OD{, apart from stating their replies in natural language (?)}
 The collected dialogues are published under Creative Commons 4.0 BY-SA license on available to download at {\it anonymized}.  % lindat\footnote{todo where}.
 
-We plan to increase the number of collected dialogues till the camera ready deadline to \OP{XYZU}.
+We plan to increase the number of collected dialogues till the camera ready deadline to 700 or more.
 We intend to use the dataset to train and evaluate an~end-to-end conversational model which uses only the database calls as additional supervision to the recorded responses. 
 
 \subsubsection*{Acknowledgments}
