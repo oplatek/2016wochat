@@ -357,7 +357,7 @@ We bootstrap the conversation either with an operator's introduction {\it ``Hell
 If we initialize the dialogue with a~full turn, the first contributor plays role of the system. If we bootstrap the conversation only with~the operator's greeting, the first contributor plays the client's role.
 
 In a~single CF task submission, we let the workers append a~single response to multiple different dialogues, taking on a random role in each of them.
-That the conversations are typically rather short \OD{možná rekni počet turnů, ať to nevypadá jako dva} and therefore, full dialogues are collected after few rounds of submissions.
+The conversations are typically rather short \OD{možná rekni počet turnů, ať to nevypadá jako dva} and therefore, full dialogues are collected after few rounds of submissions.
 The workers are paid  the same amount of money for every submitted response regardless of whether they play the client or the operator role. \ODdel{and they typically contribute to multiple conversation during one job submission.}\OD{přidal jsem do první věty)}
 \ODdel{The contributors are assigned roles randomly.}\OD{ditto}
 
@@ -367,9 +367,9 @@ This help us filter low-quality conversations, but more importantly, it motivate
 
 \section{Dataset Properties} \label{sec:props}
 \vspace{-0.50em}
-We just started to collect our dataset and so far we collected only \OP{62} conversations.
-The average length of a conversation is \OP{3.8} turns, meaning that the contributors in both roles reply in average circa three times before the conversation is finished\footnote{First system reply is automatically generated and for some conversation even the first client reply is also initialized as described in Section~\ref{sec:async}}.
-During an average conversation \OP{2.4} tasks are requested and \OP{1.9} answered.
+We just started to collect our dataset and so far, we have only collected \OP{62} conversations.
+The average length of a conversation is \OP{3.8} turns, meaning that the contributors in both roles reply in average circa three times before the conversation is finished\footnote{The first system utterance is automatically generated and for some conversations, the first client reply is also generated automatically, as described in Section~\ref{sec:async}}.
+During an average conversation, \OP{2.4} tasks are requested and \OP{1.9} answered.\OD{Proč ne všechny? To by možná bylo dobrý vysvětlit}
 % Typically in \OP{65} \% case the conversation is ended by the client.
 % As we mention the conversation are short, taking only from \OP{four to six turns} including first turn with greetings.
 % \begin{table}
@@ -391,42 +391,42 @@ During an average conversation \OP{2.4} tasks are requested and \OP{1.9} answere
 % \end{center}
 % \label{tab:props}
 % \end{table}
-During the data collection process we discarded over \OP{35} \% of replies because the utterances were of low quality.
-Note that we discard only the low quality utterance, the prefix of the conversation is submitted for finishing the conversation in next rounds of jobs.
-Once we will collect enough conversation we intend to split them into training, development and test set. % (see Table~\ref{tab:props}).
+During the data collection process we discarded around \OP{35} \% of replies so far because the utterances were of low quality.
+Note that we discard only the low-quality utterance; the prefix of the conversation is submitted for finishing the conversation in a next round of CF tasks.
+Once we collect enough conversations, we intend to split them into training, development and test set. % (see Table~\ref{tab:props}).
 
 
 \section{Related Work} \label{sec:related}
 \vspace{-0.50em}
 Our work is closely related  to work of~\cite{williams2013dstc1,henderson2014dstc2,henderson2014dstc3} in the sense that the conversation are held in the same domain.
-On the other hand, the collection process differs substantially because we do not use any artificial system in the operator's role.  
-We rather focus on collecting high quality human conversations. 
-In addition, in our work we do not collect complicated annotations on LU and DST level.
+On the other hand, the collection process differs substantially because we do not use any artificial system in the operator's role;
+we rather focus on collecting high-quality human-human conversations. 
+In addition, we do not collect complex LU and DST annotation in our work.
 
-A~relevant work of~\cite{wen2016network} collected human-human dialogues in similar but more restricted domain than the Cambridge domain.
-Their dataset is not yet published so we compare only with their statistics.
-The dataset is of similar size as we intend to collect and a~very similar collection scheme was used where Amazon Mechanical Turk workers submitted one reply at a time without being connected to each other in real-time.
-On the other hand, they collected explicit dialogue state annotation which takes significant annotation effort.
+The~relevant work of~\cite{wen2016network} includes a collection of human-human dialogues in a domain similar to ours but more restricted.
+Their dataset is not yet publicly available; therefore, we only compare to their statistics.
+The dataset is of similar size as we intend to collect, and a~very similar collection scheme was used where Amazon Mechanical Turk workers submitted one reply at a time without being connected to each other in real-time.
+On the other hand, they collected explicit dialogue state annotation, which takes a significant annotation effort.
 
-Another line of research~\cite{vodolan2016data} used CF to collect human-human conversation for interactive-learning dataset.
-However, the collected dialogues were later annotated by expert annotators which goes directly against our intentions to avoid any expensive annotations.
+Another line of research~\cite{vodolan2016data} used CF to collect human-human conversations for interactive learning dataset.
+However, the collected dialogues were later annotated by expert annotators, which goes directly against our intentions to avoid any expensive annotation.
 
-There is a~significant amount of work which used Wizard of Oz experiments~\cite{whittaker2002fish,walker1997evaluating,rieser2008learning} for studying linguistic properties of dialogues, evaluating proof of concept or even collecting bootstrap training data, but according our knowledge no other work than~\cite{wen2016network} have used cheap crowdsourcing workers to collect a~full training dataset for supervised learning of dialogue management or end-to-end conversations.
+There is a~significant amount of work which used Wizard-of-Oz experiments~\cite{whittaker2002fish,walker1997evaluating,rieser2008learning} for studying linguistic properties of dialogues, evaluating proof-of-concept\OD{proof of concept čeho??} or even collecting bootstrap training data but to our knowledge, no other work than~\cite{wen2016network} have used cheap crowdsourcing workers to collect a~full training dataset for supervised learning of dialogue management or end-to-end conversations.
 
 \section{Conclusion and Future work} \label{sec:conc}
 \vspace{-0.50em}
-We present a new human-human dialogue dataset with annotation of user intention in form of operator's database calls.
-We also introduced a novel data collection setting which resembles work of operators in call centers and introduce minimum overhead to crowdsourcing workers.
+We present a new human-human dialogue dataset with annotation of user intention in the form of operator's database calls.
+We also introduced a novel data collection setting which resembles work of operators in call centers and introduces minimum overhead to crowdsourcing workers.
 % TO mi prijde ze v call -centrech delaji stejne\OD{, apart from stating their replies in natural language (?)}
-The collected dialogues are published under Creative Commons 4.0 BY-SA license on available to download at {\it anonymized}.  % lindat\footnote{todo where}.
+The collected dialogues are published under Creative Commons 4.0 BY-SA license and available for download \ODdel{at {\it anonymized}}.\OD{Napsal bych radši do footnotu “URL will be provided in the camera-ready version of the paper”).}  % lindat\footnote{todo where}.
 
-We plan to increase the number of collected dialogues till the camera ready deadline to 700 or more.
-We intend to use the dataset to train and evaluate an~end-to-end conversational model which uses only the database calls as additional supervision to the recorded responses. 
+We plan to increase the number of collected dialogues to 700 or more before the camera-ready deadline.
+We intend to use the dataset to train and evaluate an~end-to-end conversational model which uses only operator's database calls as additional supervision to the recorded responses. 
 
 \vspace{-1.40em}
 \subsubsection*{Acknowledgments}
 We would like to thank Ondřej Dušek for useful comments.
-This research was partly funded by the Ministry of Education, Youth and Sports of the Czech Republic under the grant agreement LK11221, core research funding, grant GAUK 1915/2015, and also partially supported by SVV project number 260 333. 
+This research was partly funded by the Ministry of Education, Youth and Sports of the Czech Republic under the grant agreement LK11221, core research funding, grant GAUK 1915/2015, and also partially supported by SVV project number 260 333.\OD{Pro anonymizaci tuhle sekci zatím vynech. V plné verzi bys měl asi poděkovat i Lindatu.} 
 % We gratefully acknowledge the support of NVIDIA Corporation with the donation of the Tesla K40c GPU used for this research.
 % Cloud computational resources were provided by the MetaCentrum under the program LM2010005 and the CERIT-SC under the program Center CERIT Scientific Cloud, part of the Operational Program Research and Development for Innovations, Reg.\ no. CZ.1.05/3.2.00/08.0144.
 
