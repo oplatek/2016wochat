@@ -184,19 +184,20 @@ Insitute\\
 \section{Introduction}\label{sec:intro}
 \vspace{-0.50em}
 We present a new dataset of human-human task-oriented conversations in the restaurant info domain for supervised training of autonomous systems. 
-Currently, the dataset contains only \OP{62} dialogues because we are still collecting more data, but we estimate that until camera ready deadline we will have more than seven hundreds dialogues. 
+Currently, the dataset contains only \OP{62} dialogues because we are still collecting more data, but we estimate we will have more than 700 dialogues until the camera ready deadline. 
+
 We aim at representing the conversation in such way that it is easy to train a system to replace an operator who provides information about the restaurants to clients.
 In contrast to previously released datasets, our dataset contains easy to collect high-quality transcriptions of the client and operator actions during conversations.
 We introduce a~very little overhead by collecting database calls in addition to the transcription of the conversation. 
 In fact, we mimic very closely a~real situation in call centers where operators searches for answers through database user interface. 
 On the other hand, just logging the calls to the task database provide us with information of the similar quality as it is contained in manually annotated dialogue state, just not annotated incrementally after each turn.
-Tracking the database calls in task oriented systems together with conversation transcription should not introduce much overhead during data collection, but should presumably boost end-to-end conversational agent as much as annotated dialogue state when training with such data.
+Tracking the database calls in task oriented systems together with conversation transcription should not introduce significant overhead during data collection, but should presumably boost end-to-end conversational agent as much as annotated dialogue state when training with such data.
 
 Current Spoken Dialogue Systems (SDS) are either handcrafted and use no training data~\cite{duvsek2014alex,raux2005let}, but require non-trivial amount of expert work, or are gradually improved from initial policy through live user interaction~\cite{young2010hidden,gasic2011line}, and lately are trained using supervised learning typically in end-to-end manner~\cite{wen2016network,williams2016end}.\footnote{The~work of \cite{williams2016end} also fine tuned the conversation with reinforcement learning after the supervised-learning stage.}
 The reinforcement learning need just collect enough live user conversation containing only explicit feedback, but because the feedback signal is typically simple, noisy and delayed one require thousands of live conversations to improve rather simple policy.\cite{gasic2011line}
 The supervised-learning methods greatly reduced the number of conversation needed for training reasonable policy to few hundreds\cite{wen2016network}, but require annotation for all components used the dialogue which so far included at least a dialogue state\cite{wen2016network,young2010hidden}.
 Since the dialogue state is simplification of dialogue history and has no broadly-accepted form, it is very expensive to collect such annotated data because the dialogue state typically differs among domains and its structure is hard to explain to annotators.
-In this paper, we focus on collecting supervised training set with rich enough annotation so the supervised models similar to~\cite{wen2016network} can be trained with few hundreds of dialogues, but the annotation of dialogues are much easier to collect.
+In this paper, we focus on collecting supervised training set with rich enough annotation so the supervised models similar to~\cite{wen2016network} can be trained with few hundreds of dialogues, but the annotation of dialogues are easier to collect.
 
 We believe that our dataset dataset can be used for first experiments of training end-to-end systems using supervised learning without annotated dialogue state.
 The domain of the dataset is well established thanks to dialogue state tracking (DST) challenges~\cite{williams2013dstc1,henderson2014dstc2,henderson2014dstc3}. 
