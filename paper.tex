@@ -220,83 +220,83 @@ We conclude the paper and suggest future work in~Section~\ref{sec:conc}.
 
 \section{Supervised Feedback for Task-oriented Dialogue} \label{sec:repre}
 \vspace{-0.50em}
-We present a dataset for training a task-oriented conversational agent in well defined domain.
-We assume that the agent has a task database\footnote{In the Cambridge restaurant domain the database is a simple table containing information about restaurants.} at hand and plays role of {\it operator}.
-The other interlocutor in the conversation is a~human {\it client}.
-{\it Clients} seek information stored in the database and use the system, which replaced a~human operator, to obtain desired information.
+We present a dataset for training a task-oriented conversational agent in a well-defined domain.\OD{In this paper, we assume that we need to train a...}
+We assume that the agent has a task database\footnote{In the Cambridge restaurant domain the database is a simple table containing information about restaurants.} at hand and plays the role of the {\it operator}.
+The other interlocutor in the conversation is a~human {\it client}.\OD{that seeks information stored in the database}
+Clients seek information stored in the database and use the system, which replaced a~human operator, to obtain desired information.\OD{A tuhle větu už pak můžeš vyhodit.}
 
 We focus on data collection for text-to-text task-oriented dialogue systems.
-Traditionally, one would train the pipeline of components of task-oriented dialogue systems, i.e.\ automatic speech recognition (ASR), language understanding (LU) unit, dialogue tracker (DT), dialogue manager (DM), natural language generator (NLG) for text-to-text conversational agents and text-to-speech (TTS) module~\cite{duvsek2014alex}.
-However, typically only the text-to-text pipeline of LU, DT, DM and NLG is trained using just the domain-related text-to-text data~\cite{gasic2011line,jurvcivcek2014factored,duvsek2016sequence}.
+Traditionally, one would train the pipeline of components of task-oriented dialogue systems, i.e., automatic speech recognition (ASR), language understanding (LU) unit, dialogue tracker (DT), dialogue manager (DM), natural language generator (NLG) for text-to-text conversational agents and text-to-speech (TTS) module~\cite{duvsek2014alex}.
+However, only the text-to-text pipeline of LU, DT, DM, and NLG is typically trained using just in-domain data~\cite{gasic2011line,jurvcivcek2014factored,duvsek2016sequence}.
 The ASR~\cite{platek2014free} and the TTS~\cite{taylor2009text} modules are typically trained using larger datasets.
-Our datasets contains data for training an~end-to-end system solving task of LU, DT, DM and NLG pipeline of traditional architecture.
+Our datasets contains data for training an~end-to-end system solving task of LU, DT, DM and NLG pipeline of traditional architecture.\OD{Tenhle odstavec bych ještě trochu překopal.}
 
 % Me to nesedi jako related work - related work je o sbirani dat
 % Tohle me prijde zduvodneni, ze takovy (maly, supervised) dataset dava smysl
 % Zatim nechavam zde: \OD{následující dva odstavce zní dost jako “related work”... možná bych to tam částečně popřesouval? a tady nechal jen ten statement, že stačí málo trénovacích dat?}
-It was shown that few hundreds of annotated domain specific conversations is needed for training relatively well performing LU~\cite{jurvcivcek2014factored} as well as Dialogue State Tracking~\cite{young2010hidden} components.
-The work of~\cite{duvsek2016sequence} and~\cite{mairesse2010phrase} showed that only several hundreds of turns with appropriate annotation is needed for training usable NLG unit on simple domains.
-Even the crucial task of action selection can be trained using POMDP dialogue manager and few thousands conversations despite the fact that rewards are provided only at the end of dialogue~\cite{gasic2011line}.
+It was shown that a few hundreds of annotated domain specific conversations are needed to train a relatively well performing LU~\cite{jurvcivcek2014factored} as well as Dialogue State Tracking~\cite{young2010hidden} components.\OD{“few” = málo, “a few” = pár, několik}
+The work of~\cite{duvsek2016sequence} and~\cite{mairesse2010phrase} showed that only several hundreds of turns with appropriate annotation is needed for training a usable NLG unit in simple domains.
+Even the crucial task of action selection can be trained using a POMDP dialogue manager\OD{přepsal bych na “using reinforcement learning”, protože nikde nedefinuješ, co je POMDP} and few thousands conversations despite the fact that rewards are only provided at the end of a dialogue~\cite{gasic2011line}.
 
-We believe that end-to-end systems even can be trained using few hundreds conversation if additional supervision in the form of simple annotation is used for narrow goal-oriented domains such as Cambridge restaurant domain~\cite{henderson2014dstc2} or its simplification~\cite{wen2016network}.
-The~work of~\cite{wen2016network} showed that only 680 conversations annotated just at dialogue state level are needed for training the complete end-to-end system performing the task of summarizing the dialogue history, response planning and generation.
+We believe that end-to-end systems can also be trained using a few hundreds of conversations for narrow goal-oriented domains, such as Cambridge restaurant domain~\cite{henderson2014dstc2} or its simplification~\cite{wen2016network}, if additional supervision in the form of simple annotation is used.
+The~work of~\cite{wen2016network} showed that only 680 conversations annotated just at the dialogue state level are needed for training a complete end-to-end system performing the task of summarizing the dialogue history, action selection, and response generation.
 
-We realise that further annotation of dialogue conversation may help to train the models faster, but simply collecting more data is typically more beneficial.
-As a consequence, we see works~\cite{wen2016network,bordes2016learning,williams2016end} as important step forward to reducing the need of rich annotations for training dialogue agents.
-We believe that annotating a dialogue state according to expert-handcrafted ontology is both an~artificial and a~very labor-intensive data collection task, so our work aim at collecting conversation with lighter and more easier to get annotations.
-We suggest to record conversation between human operator and human clients through crowdsourcing and by this means collect cheap high quality training data.
-Similar recording setup is known from call centers where the operator is provided with interface to the database so it quickly finds relevant information and plays the role of domain expert.
-For our dataset, we collect the operator's database calls with its arguments instead of dialogue state annotation after each turn.
+We realize that a more fine-grained annotation helps to train the models faster, but simply collecting more data is often more beneficial.\OD{citace? a nevím, jestli tady ta věta je nutná. Možná bych vynechal všechno až do “we believe that annotating...”??}
+As a consequence, we regard the works~\cite{wen2016network,bordes2016learning,williams2016end} as an important step forward to reducing the need for rich annotation in dialogue agent training.
+We believe that annotating the dialogue state according to an expert-handcrafted ontology is both an~artificial and a~very labor-intensive data collection task. Therefore, our work aims at collecting conversation with lighter and easier to get annotation.
+We suggest recording conversation between a human operator and a human clients via a crowdsourcing platform, i.e., collecting cheap high quality training data.
+A similar recording setup is known from call centers where the operator is provided with a database interface so that they quickly find relevant information and play the role of a domain expert.
+For our dataset, we collect the operator's database calls instead of dialogue state annotation after each turn.\OD{Asi bych tohle dal hned po “eaiser to get annotation”. Pak tu větu “a similar recording setup...” a až na konec “we suggest crowdsourcing”, který bych změnil na “To obtain the dataset, we record conversations between human operators and human clients...”}
 
-The calls to the database completely represents the client intention which is the purpose of the dialogue state.
-On the other, the database calls are not present in every turn and thus by logging only the calls one loses a possibility to track partially filled client intention.
-We argue that in high quality human-human conversation there is a minimum turns which are related to the domain and do not contain calls to the database as demonstrated in~Section~\ref{sec:props}.
-It's worth noting that logging operator's database calls in operator-client dialogues is already well established practice in call centers, a~convenient field for commercial application of dialogue systems.
+The calls to the database represent very accurately the client's intention, which is the original purpose of dialogue state annotation.
+On the other hand, the database calls are not present in every turn and thus by logging only the calls, one loses the possibility to track partially expressed client's intention.
+However, we argue that in high quality human-human conversation, there are few turns which are related to the domain and do not contain calls to the database, as demonstrated in~Section~\ref{sec:props}.
+It is worth noting that logging the operator's database calls in operator-client dialogues is already a well-established practice in call centers, a~convenient field for commercial application of dialogue systems.
 
 \section{Dataset Collection Process} \label{sec:collection}
 \vspace{-0.50em}
-Our data collection processed aimed at collecting natural conversation in the well defined domain.
-We decided to collect new dataset int the~well studied Cambridge restaurant domain since the previous datasets~\cite{williams2013dstc1,henderson2014dstc2,henderson2014dstc3} in that domain demonstrated that a meaningful and of a reasonable length conversation can be held in the domain.
-Also it was proven that the domain is on one hand difficult enough that even the state-of-the art systems does not reach human-level performance in the role of the operator~\cite{henderson2014dstc2} and on the other hand numerous systems~\cite{young2010hidden,gasic2011line,wen2016network} demonstrated that are able to provide information to the clients reasonable well.
+Our data collection process aims at obtaining natural in-domain conversations.
+We decided to collect the dataset within the~well studied Cambridge restaurant domain since previous datasets~\cite{williams2013dstc1,henderson2014dstc2,henderson2014dstc3} in that domain demonstrated that a meaningful and reasonable-length conversations can be held here.\OD{tady už se částečně opakuješ, na jednom místě to zkrať}
+Also, it was proven that the domain is on one hand difficult enough that even the state-of-the art systems do not reach human-level performance in the role of the operator~\cite{henderson2014dstc2} and on the other hand, numerous systems~\cite{young2010hidden,gasic2011line,wen2016network} demonstrated their ability to provide information to the clients with a reasonable quality.
 
-We define our domain by choosing a database from Dialogue State Tracking Challenge 2 (DSTC2)~\cite{henderson2014dstc2}.
-We use the database for steering the dialogue of the two human interlocutors a~{\it client} and an~{\it operator}.
-We use the CrowdFlower (CF) crowdsourcing platform for collecting the conversations.
+We define our domain by choosing the database from the 2nd Dialogue State Tracking Challenge (DSTC2)~\cite{henderson2014dstc2}.
+We use the database for steering the dialogue of the two human interlocutors a~{\it client} and an~{\it operator}.\OD{tuhle větu bych vynechal}
+We use the CrowdFlower (CF) crowdsourcing platform to collect the conversations.
 
 We first describe the database which defines our domain in~Section~\ref{sec:db}.
-Then we describe how the hired workers used our interface for playing either client or operator roles in~Sections~\ref{sec:client} and~\ref{sec:operator}.
-Finally, in~Section~\ref{sec:async} we describe how we collected conversations one response at a time without connecting the interlocutors in real-time. 
+Then we describe how the hired workers use our interface to play either the client or the operator role in~Sections~\ref{sec:client} and~\ref{sec:operator}, respectively.
+Finally, in~Section~\ref{sec:async}, we describe how we collect conversations one response at a time without connecting the interlocutors in real-time. 
 
 \vspace{-1.00em}
 \subsection{Domain database}
 \label{sec:db}
 
-We used exactly the same database as provided for the DSTC2 challenge~\cite{henderson2014dstc2}.
-The database contains information about 107 restaurants and their properties stored in the columns.
+We use exactly the same database as provided for the DSTC2 challenge~\cite{henderson2014dstc2}.
+The database contains information about 107 restaurants in Cambridge, and their properties are stored in several columns.
 We include in brackets the number of different values for each column:
-\vspace{-0.50em}
+\vspace{-0.50em}\OD{Když dáš dvousloupcovou tabulku, tak i ušetříš trochu místa}
 \begin{itemize}  % tabulku misto tohohle?
     \item name (107),
     \item price range (4),
     \item area (7),
     \item food (25),
     \item address (101),
-    \item phone (97),
+    \item phone number (97),
     \item postcode (62).
 \end{itemize}
 \vspace{-0.50em}
 
-The address or the phone are unique for each restaurant but are sometimes missing, but the name of the restaurant is always known. 
-There are typically multiple restaurant with the same postcode, price range, area, or food type property and these properties might be unknown for a restaurant.
+The address and the phone number are unique for each restaurant but are sometimes missing; the restaurant name is always known. 
+There are typically multiple restaurants with the same postcode, price range, area, or food type properties; these properties might also be unknown for a restaurant.
 
-We use the database to generate client goals for CF users (see Figure~\ref{fig:client}).
-The database was also available to CF users playing role of the operator through a simple interface (see Figure~\ref{fig:operator}).
+We use this database to generate\OD{prepare} client goals for CF users (see Figure~\ref{fig:client}).
+The database is also available through a simple interface to CF users playing the role of the operator (see Figure~\ref{fig:operator}).\OD{nechceš tu odkazovat na ty podsekce spíš než na ty obrázky?}
 
 \vspace{-1.00em}
 \subsection{Client interface}
 \label{sec:client}
 
-The client is asked to request a specific information - a goal from the operator.
+The client is asked to request a specific information – a goal from the operator.
 He may choose not to seek the goal immediately but submit more appropriate response such as greeting instead.
 The goals are displayed to the CF worker in the client role gradually turn-by-turn and the goals may contradict each other.
 For example, the client may at first want a Chinese food, but later it changes her mind and wants to find restaurant serving British food.
