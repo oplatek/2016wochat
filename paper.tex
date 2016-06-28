@@ -147,7 +147,7 @@ pdfstartview=Fit
 \input glyphtounicode.tex
 \pdfgentounicode=1
 
-\title{Dataset of operator-client dialogues aligned with database queries}
+\title{A Dataset of Operator-client Dialogues Aligned with Database Queries}
 
 \author{Ondřej Plátek \and Filip Jurčíček}
 \institute{Charles University in Prague, Faculty of Mathematics and Physics \\
@@ -166,14 +166,15 @@ Insitute\\
 \maketitle
 % \OP{Fill missing values about the dataset collected so far} \\
 % \OP{grammar check} \\
+\OD{Přemýšlím, jestli ten název neudělat nějak míň popisný a víc vysvětlující (něco o end-to-end dialogue systems)?}
 
 \begin{abstract}
     This paper presents a novel dataset for training end-to-end task oriented conversational agents.
     The dataset contains conversations between an operator – a task expert, and a client who seeks information about the task.
-    Along with the conversation transcriptions we record database API calls performed by the operator, which capture the distilled meaning of the user query.
-    We expect that the easy-to-get supervision of database calls allow to train end-to-end dialogue agents with significantly less training data.
- 	The dataset is collected using crowdsourcing and the conversations cover well known restaurant domain.
-    The quality of the data is enforced by mutual control among contributors.  % TODO and manually verified on random sub-sample 
+    Along with the conversation transcriptions, we record database API calls performed by the operator, which capture a distilled meaning of the user query.
+    We expect that the easy-to-get supervision of database calls will allow us to train end-to-end dialogue agents with significantly less training data.
+ 	The dataset is collected using crowdsourcing and the conversations cover the well-known restaurant domain.
+    Quality of the data is enforced by mutual control among contributors.  % TODO and manually verified on random sub-sample 
     The dataset is available for download under the Creative Commons 4.0 BY-SA license.
 \end{abstract}
 
@@ -184,39 +185,40 @@ Insitute\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}\label{sec:intro}
 \vspace{-0.50em}
-We present a new dataset of human-human task-oriented conversations in the restaurant info domain for supervised training of autonomous systems. 
-Currently, the dataset contains only \OP{62} dialogues because we are still collecting more data, but we estimate we will have more than 700 dialogues until the camera ready deadline. 
+We present a new dataset of human-human task-oriented conversations in the restaurant information domain, suitable for supervised training of autonomous systems. 
+Currently, the dataset contains only \OP{62} dialogues because we are still collecting more data, but we estimate we will have more than 700 dialogues until the camera ready deadline.
+\OD{We are currently collecting data for the set using crowdsourcing. We have collected 62 dialogues so far; more than 700 dialogues are planned for the final version of the dataset.\footnote{\OD{We expect to release the set before the camera-ready deadline.}}}
 
-We aim at representing the conversation in such way that it is easy to train a system to replace an operator who provides information about the restaurants to clients.
-In contrast to previously released datasets, our dataset contains easy to collect high-quality transcriptions of the client and operator actions during conversations.
-We introduce a~very little overhead by collecting database calls in addition to the transcription of the conversation. 
-In fact, we mimic very closely a~real situation in call centers where operators searches for answers through database user interface. 
-Just logging the calls to the task database provide us with information of the similar quality as it is contained in manually annotated dialogue state, but not annotated incrementally after each turn.
-Tracking the database calls in task oriented systems together with conversation transcription should not introduce significant overhead during data collection, but should presumably boost end-to-end conversational agent as much as annotated dialogue state when training with such data.
+We aim at representing the conversation in a way that makes it easy to train an automated system to replace a human operator. 
+In contrast to previously released datasets, our dataset contains easy-to-collect high-quality transcriptions of the client and operator actions during conversations.\OD{tady úplně nevím, k čemu se kontrastuješ}
+We introduce a~very little overhead by collecting database calls in addition to the transcription of the conversation.
+In fact, we mimic very closely a~real situation in call centers where operators search for answers through a database user interface. 
+Just logging the calls to the task database provide us with information of a similar quality as a full manual dialogue state annotation, but not annotated incrementally after each turn.\OD{od “but” nerozumím}
+Tracking the database calls in task oriented systems together with conversation transcription should not introduce significant overhead during the data collection, but should presumably boost end-to-end conversational agent as much as annotated dialogue state when training with such data.\OD{but should provide a similar amount of supervision for training an end-to-end conversational agent as using fully annotated dialogue state ??}
 
-Current Spoken Dialogue Systems (SDS) are either handcrafted and use no training data~\cite{duvsek2014alex,raux2005let}, but require non-trivial amount of expert work, or are gradually improved from initial policy through live user interaction~\cite{young2010hidden,gasic2011line}, and lately are trained using supervised learning typically in end-to-end manner~\cite{wen2016network,williams2016end}.\footnote{The~work of \cite{williams2016end} also fine tuned the conversation with reinforcement learning after the supervised-learning stage.}
-The reinforcement learning need just collect enough live user conversation containing only explicit feedback.
-However, the feedback signal is harder to interpret than supervised annotation one require thousands of live conversations to improve rather simple policy.\cite{gasic2011line}
-The supervised-learning methods greatly reduced the number of conversation needed for training reasonable policy to few hundreds\cite{wen2016network}, but require annotation for all components used in the dialogue system.
-According to our knowledge the system require annotation at least for a dialogue state\cite{wen2016network,young2010hidden}.
-Since the dialogue state is simplification of dialogue history and has no broadly-accepted form, it is very expensive to collect such annotated data because the dialogue state typically differs among domains and its structure is hard to explain to annotators.
-In this paper, we focus on collecting supervised training set with rich enough annotation so the supervised models similar to~\cite{wen2016network} can be trained with few hundreds of dialogues, but the annotation of dialogues are easier to collect.
+Current Spoken Dialogue Systems (SDS) are either handcrafted and use no training data~\cite{duvsek2014alex,raux2005let} but require non-trivial amount of expert work, or they are gradually improved from initial policy through live user interaction~\cite{young2010hidden,gasic2011line}. Recently, SDS have also been trained using supervised learning in an end-to-end manner~\cite{wen2016network,williams2016end}.\footnote{The~work of \cite{williams2016end} also fine-tuned the conversation with reinforcement learning after the supervised learning stage.}
+To train a system using reinforcement learning, one only needs to collect enough live user conversation containing explicit feedback.
+However, the feedback signal is harder to interpret than supervised annotation: Thousands of live conversations are required to improve a rather simple policy.\cite{gasic2011line}
+Supervised learning methods reduced the number of conversations needed for training a reasonable policy down to a few hundreds\cite{wen2016network}, but require explicit annotation for all components used in the dialogue system.
+To our knowledge, all current systems require full dialogue state annotation as a minimum~\cite{wen2016network,young2010hidden}.\OD{Tuhle větu asi do footnotu?}
+With the dialogue state being a simplification of the dialogue history with no broadly-accepted form, it is very expensive to collect such annotated data because the dialogue state typically differs among domains and its structure is hard to explain to annotators.
+In this paper, we focus on collecting a supervised training set with annotation rich enough so that supervised models similar to~\cite{wen2016network} can be trained with a few hundreds of dialogues, yet much easier to collect than previous methods.
 
-We believe that our dataset dataset can be used for first experiments of training end-to-end systems using supervised learning without annotated dialogue state.
-The domain of the dataset is well established thanks to dialogue state tracking (DST) challenges~\cite{williams2013dstc1,henderson2014dstc2,henderson2014dstc3}. 
-The DST challenges proved that the domain is of reasonable complexity.
+We believe that our dataset dataset can be used for first experiments in training end-to-end systems using supervised learning without explicit dialogue state annotation.
+The restaurant information domain used in our dataset is well established thanks to dialogue state tracking (DST) challenges~\cite{williams2013dstc1,henderson2014dstc2,henderson2014dstc3}. 
+The DST challenges proved that the domain is of a reasonable complexity.
 In addition, the challenges showed that the DST task is solvable by architectures which may be extended to end-to-end conversational agents~\cite{platek2016recurrent,vodolan2015hybrid,henderson2014word}.
-Note that we collected human-to-human dialogues on Cambridge restaurant domains, but our data-collection method is domain independent.
+Note that \ODdel{we collected human-to-human dialogues on Cambridge restaurant domains, but} our data-collection method is \OD{completely} domain independent.
 
-The paper is structured as follows: Section~\ref{sec:repre} motivates the annotations and format of our dataset.
-In Section~\ref{sec:collection} we introduce our collection process using crowdsourcing.
-Section~\ref{sec:props} presents the dataset properties and we list the related work in Section~\ref{sec:related}.
+The paper is structured as follows: Section~\ref{sec:repre} motivates the annotation and data formats\OD{?} used in our dataset.
+In Section~\ref{sec:collection}, we introduce our collection process using crowdsourcing.
+Section~\ref{sec:props} presents the dataset properties, and we list related work in Section~\ref{sec:related}.
 We conclude the paper and suggest future work in~Section~\ref{sec:conc}.
 
 % \section{End-to-end training of dialogue systems}
 % \label{sec:training}
 
-\section{Supervised feedback for task-oriented dialogue} \label{sec:repre}
+\section{Supervised Feedback for Task-oriented Dialogue} \label{sec:repre}
 \vspace{-0.50em}
 We present a dataset for training a task-oriented conversational agent in well defined domain.
 We assume that the agent has a task database\footnote{In the Cambridge restaurant domain the database is a simple table containing information about restaurants.} at hand and plays role of {\it operator}.
