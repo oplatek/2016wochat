@@ -1,0 +1,82 @@
+
+Paper 258: A Dataset of Operator-client Dialogues Aligned with Database Queries for End-to-end Training
+
+ 
+
+Reviewer 1
+
+Originality: 4
+
+Significance: 2
+
+Correctness (Format): 6
+
+Correctness (Language): 6
+
+Clearness and Quality: 3
+
+Comments:
+
+This paper describes a process and a tool for collecting data for the end-to-end learning of task-oriented dialogue systems. By collecting not only the utterances of both of the client and the operator but also the database queries by the operator, the effort for annotating the dialogue states can be eliminated.
+
+Although this work is still in a preliminary stage, the idea is reasonable. However I have a concern with asynchronous conversational data collection where dialogue context is given to each worker in crowdsourcing. This may make the dialogue unnatural in that the sentence style, interaction style, and personality may not be consistent throughout the dialogue.
+
+Also, since the goal is given a priori, the way of referring to each database entry may be restricted. This is very different the behaviors of from real users. So I'm not sure the dialogue model trained on the corpus collected in this way works well user test in the wild.
+
+Though I think this paper is worth presenting in a workshop focusing a specific topic, it is desired those issues are mentioned in the final version.
+
+ 
+
+Reviewer 2
+
+Originality: 3
+
+Significance: 4
+
+Correctness (Format): 5
+
+Correctness (Language): 5
+
+Clearness and Quality: 4
+
+Comments:
+
+This paper presents the development of a new dataset for building end-to-end task oriented conversational agents. Using Amazon Mechanical Turk, human-human dialogues in the restaurant domain are collected with annotation of user intention. Only 62 dialogues have been collected so far although 700 dialogues will be collected. The paper also shows some statistics of the collected dialogues.
+
+The amount of the collected dataset is still less than 10%. So, it seems a little bit early to publish this paper. On the other hand, it could be still worthwhile to publish it to announce this trial to collect a new dialogue dataset, which will be published under Creative Commons 4.0 BY-SA license; I recommend that all results be updated in the camera-ready version of the paper.
+
+ 
+
+Reviewer 3
+
+Originality: 2
+
+Significance: 4
+
+Correctness (Format): 4
+
+Correctness (Language): 5
+
+Clearness and Quality: 4
+
+Comments:
+
+This paper describes the process of collecting a new dataset of human-human task oriented dialogs in the domain of restaurant searching. The authors describe the process of collecting the dialogs in a way that it doesn't require connecting users in real-time. In addition, the authors describe the kind of data that is collected, the interface, the procedure, and the number of dialogs collected until now.
+
+In general, the paper is well written, easy to follow and the dataset will be made available to the research community what definitely will be helpful for the research community.
+
+However, I have the following doubts that the authors should address in the paper to make it more clear and to enhance the relevance of the dataset once it is released.
+
+1) Authors mention a similar work (and approach) in reference [17] which competes in terms of number of collected dialogs and annotated data. So, a deeper comparison of both works should be needed for people to understand better the advantage of your work in comparison with the other.
+
+2) Authors should provide additional statistics about the quality of the collected data. For instance, if the number of turns is around 4 and 2 goals are requested, then in a first look, the annotated information (i.e. the database filter) will be mostly simple commands which for developing complex conversational end-to-end dialog system could be not enough. Probably, providing a list of examples of the collected data, number of different filters used, coverage, info about the evaluation provided in the last questions of the client/operator interfaces etc. Could help to make the paper more appealing and the work more relevant.
+
+Minor changes:
+
+1) sect 3.2: .. at first want to find a restaurant ...
+
+2) Fig. 1: Check if you feel that the other interlocutor...
+
+3) Provide more information about how are you planning to improve the quality of the data. 35% of discarded dialogs is a huge number that would be interesting to know how you will solve it.
+
+4) sect 1. For completeness, include a reference to the fourth/fifth DSTC challenges.
